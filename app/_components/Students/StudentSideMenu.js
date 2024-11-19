@@ -9,12 +9,22 @@ import SettingIcon from "@/public/icons/SettingIcon";
 import LogoutIcon from "@/public/icons/LogoutIcon";
 import Link from "next/link";
 import { HiMenu } from "react-icons/hi";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import CoursesIcon from "@/public/icons/CoursesIcon";
-function SideMenu() {
+function StudentSideMenu() {
     const [isOpen, setIsOpen] = useState(false); // Sidebar state
     const [activeItem, setActiveItem] = useState("Home"); // Track the active sidebar item
-
+    useEffect(() => {
+        if (typeof window !== "undefined") {
+            const pathToItem = {
+                "/Student/Home": "Home",
+                "/Student/Courses": "Courses",
+                "/Student/TodoList": "TodoList",
+                "/Student/Assignments": "Assignments",
+            };
+            setActiveItem(pathToItem[window.location.pathname] || "Home");
+        }
+    }, []);
     const toggleSidebar = () => {
         setIsOpen(!isOpen);
     };
@@ -48,7 +58,9 @@ function SideMenu() {
 
             {/* Sidebar */}
             <div
-                className={`fixed top-0 left-0 z-50 h-full w-64 bg-white shadow-md
+                className={`fixed top-0 left-0 z-50 h-full
+                     bg-white shadow-md md:min-h-[50vh] md:max-h-[90vh]
+                     md:rounded-xl md:mt-2 md:mx-2
                      transition-transform transform
                       ${isOpen ? "translate-x-0" : "-translate-x-full"
                     } md:relative md:translate-x-0 md:flex md:flex-col md:w-64 
@@ -107,4 +119,4 @@ function SideMenu() {
     )
 }
 
-export default SideMenu
+export default StudentSideMenu

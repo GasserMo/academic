@@ -6,22 +6,60 @@ import Logo from "@/app/_components/Logo"
 import RegisterButton from "@/app/_components/RegisterButton"
 import LogoWhite from "@/app/_components/LogoWhite";
 import FormRow from "@/app/_components/FormRow";
-import { useState } from "react"
+import { useContext, useState } from "react"
+import { login, loginUser } from '../actions/auth'
+import { globalState } from "../context"; // Make sure the path is correct
+import Spinner from '../_components/Spinner'
+import LoadingLogin from '../_components/LoadingLogin'
 
 
 function Page() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [showPassword, setShowPassword] = useState(false);
-    const [isLogin, setLogin] = useState(true)
+    const [isLogin, setLogin] = useState(true);
+    const [isLoading, setIsLoading] = useState(false);
+    const [error, setError] = useState("");
+    const { setData } = useContext(globalState); // Access setData from the context
+
     const togglePasswordVisibility = () => {
         setShowPassword((prev) => !prev);
     };
+
+    const handleLoginSubmit = async (e) => {
+        e.preventDefault();
+        setIsLoading(true)
+        try {
+            const data = await login({ email, password });
+            console.log("Login Data:", data);
+            setData((prevState) => ({
+                ...prevState,
+                userData: data,
+            }));
+
+            const userRole = data.user.role;
+            const token = data.token;
+            localStorage.setItem('authToken', token);
+
+            if (userRole === "teacher") {
+                window.location.href = "/Teacher/Home";  // Redirect to Teacher's Home
+            } else if (userRole === "student") {
+                window.location.href = "/Student/Home";  // Redirect to Student's Home
+            } else if (userRole === "parent") {
+                window.location.href = "/Parent/Home";  // Redirect to Parent's Home
+            } else {
+                setError("Unknown user role");
+            }
+        } catch (error) {
+            setError("Login failed: " + error.message);
+        } finally {
+            setIsLoading(false)
+        }
+    };
+
     return (
-        <div className="flex flex-col justify-center items-center md:grid
-         md:grid-cols-[40%_60%]  min-h-screen">
-            <div className="hidden  md:flex md:flex-col md:items-center md:justify-center
-             md:h-screen md:bg-gradient-to-b from-bluePrimary to-greenPrimary">
+        <div className="flex flex-col justify-center items-center md:grid md:grid-cols-[40%_60%] min-h-screen">
+            <div className="hidden md:flex md:flex-col md:items-center md:justify-center md:h-screen md:bg-gradient-to-b from-bluePrimary to-greenPrimary">
                 <LogoWhite height="100" width="200" />
                 <Image src={learn} alt="learn" width={200} height={200} />
             </div>
@@ -29,7 +67,7 @@ function Page() {
                 <div className="flex justify-center md:w-full w-full mb-8">
                     <Logo height={100} width={300} />
                 </div>
-                <form className="md:w-3/4 w-[90%] md:max-w-md space-y-4">
+                <form onSubmit={handleLoginSubmit} className="md:w-3/4 w-[90%] md:max-w-md space-y-4">
                     <div>
                         <p className="font-poppins md:text-headline-large mb-10 text-headline-medium font-semibold">
                             {isLogin ? "Log in" : "Sign up"}
@@ -50,13 +88,14 @@ function Page() {
                             type="password"
                             placeholder="Enter your Password"
                             onChange={(e) => setPassword(e.target.value)}
-                            showPassword={showPassword} // Pass showPassword state
+                            showPassword={showPassword}
                             togglePasswordVisibility={togglePasswordVisibility}
                         />
+                        {error && <p className="text-red-500">{error}</p>}
                         <p className="flex justify-end mb-4 font-poppins text-[15px] md:text-headline-black">
                             Forgot Password?
                         </p>
-                        <RegisterButton>Log in</RegisterButton>
+                        <RegisterButton>{isLoading ? <LoadingLogin /> : 'Login'}</RegisterButton>
                         <p className="text-center text-gray-600">
                             {isLogin ? "Don't have an account" : "Already have an account?"}
                             <span
@@ -70,8 +109,9 @@ function Page() {
                 </form>
             </div>
         </div>
-
-    )
+    );
 }
 
-export default Page
+export default Page;
+
+

@@ -1,5 +1,5 @@
-import ProfileDetails from '../_components/Students/ProfileDetails';
-import SideMenu from '../_components/Students/SideMenu';
+import ProfileDetails from '../_components/ProfileDetails';
+import StudentSideMenu from '../_components/Students/StudentSideMenu';
 
 export const metadata = {
     title: "Academiq - Student",
@@ -8,10 +8,10 @@ export const metadata = {
 
 export default function StudentLayout({ children }) {
     return (
-        <div className="min-h-screen md:bg-slate-100 md:flex">
-            <SideMenu />
+        <div className="min-h-screen bg-slate-100 md:flex">
+            <StudentSideMenu />
             <main className="flex flex-col md:w-full">
-                <div className="flex justify-between items-center">
+                <div className="flex  items-center">
                     <div className="hidden md:flex w-[60%] mx-7 rounded-xl bg-white">
                         <form className="flex items-center p-1 w-[90%] mx-auto">
                             <input
@@ -28,6 +28,7 @@ export default function StudentLayout({ children }) {
                         </form>
                     </div>
                     <ProfileDetails />
+
                 </div>
 
                 {/* Main content area for children */}

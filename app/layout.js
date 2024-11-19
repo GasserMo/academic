@@ -1,4 +1,5 @@
-import SideMenu from "./_components/Students/SideMenu";
+import SideMenu from "./_components/Students/StudentSideMenu";
+import Context from "./context";
 
 export const metadata = {
   title: "Academiq",
@@ -6,10 +7,13 @@ export const metadata = {
 };
 export default function RootLayout({ children }) {
   return (
-    <html lang="en">
-      <body>
-        {children}
-      </body>
-    </html>
+    <Context>
+      <html lang="en">
+        <body>
+          {children}
+        </body>
+      </html>
+    </Context>
+
   );
 }

@@ -15,6 +15,7 @@ module.exports = {
         'headline-medium': ['28px', { lineHeight: '36px', letterSpacing: '0em' }],
         'headline-small': ['24px', { lineHeight: '32px', letterSpacing: '0em' }],
         'headline-black': ['20px', { lineHeight: '40px', fontWeight: '500' }],
+        'headline-title': ['18px', { lineHeight: '40px', fontWeight: '500' }],
         'headline-email-grey': ['14px', { lineHeight: '40px' }],
       },
       colors: {

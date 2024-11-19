@@ -1,56 +1,32 @@
-'use client'
-import CourseText from '@/app/_components/CourseText'
-import Assignments from '@/app/_components/Students/Assignments'
-import Files from '@/app/_components/Students/Files'
-import Posts from '@/app/_components/Students/Posts'
-import Students from '@/app/_components/Students/Students'
+import TimeTable from '@/app/_components/Students/CoursesTimeTable'
 import '@/app/_styles/globals.css'
-import { useState } from 'react'
+import { getCourses } from '@/app/actions/getCourses'
+import Link from 'next/link'
 
-function Page() {
-    const [active, setActive] = useState('Posts')
-    const handleSetActive = (item) => {
-        setActive(item)
-    }
+const Courses = async () => {
+
+    const data = await getCourses()
+    const { courses } = data
 
     return (
-        <div className='flex flex-col md:flex   md:flex-row '>
-            <div className='flex flex-col md:min-h-[80vh] bg-white mt-4
-             md:ml-6 rounded-xl w-full md:w-[30%] overflow-x-hidden'>
-                <div className='bg-gray-400 m-4 rounded-2xl'>
-                    <div className='flex flex-col p-3'>
-                        <div className='flex justify-between'>
-                            <p className=' font-poppins text-lg '>Subject</p>
+        <div className='flex flex-col w-[90%] mx-auto md:min-h-[80vh]
+         bg-white mt-4 md:ml-6 rounded-xl'>
+            <p className='mx-4 text-headline-title font-poppins text-md'>Courses</p>
+            <div className='flex flex-wrap justify-start gap-4'>
+                {courses.map((course) => {
+                    return (
+                        <div key={course._id} className='w-full sm:w-1/2 md:w-1/3'>
+                            <Link href={`/Student/Courses/details/${course._id}`}>
+                                <div className='p-7 border bg-blueHover hover:bg-bluePrimary items-center justify-center text-center border-bluePrimary hover:text-white m-4 rounded-2xl font-poppins text-bluePrimary'>
+                                    <p>{course.title}</p>
+                                </div>
+                            </Link>
                         </div>
-                        <p className='font-poppins text-sm'>Teacher Name</p>
-                    </div>
-
-                </div>
-            </div>
-            <div className='w-full flex flex-col min-h-[80vh] bg-white 
-            md:mx-8 md:mt-4 rounded-xl md:w-[60%]'>
-                <p className=' font-poppins text-headline-small p-5'>Course Details</p>
-
-                <div className='flex space-x-4 justify-center'>
-                    <div onClick={() => handleSetActive('Posts')}>
-                        <CourseText active={active === 'Posts'} name={'Posts'} />
-                    </div>
-                    <div onClick={() => handleSetActive('File')}>
-                        <CourseText active={active === 'File'} name={'File'} />
-                    </div>
-                    <div onClick={() => handleSetActive('Students')}>
-                        <CourseText active={active === 'Students'} name={'Students'} />
-                    </div>
-                    <div onClick={() => handleSetActive('Assignments')}>
-                        <CourseText active={active === 'Assignments'} name={'Assignments'} />
-                    </div>
-                </div>
-                <Files />
-
-
+                    );
+                })}
             </div>
         </div>
     )
 }
 
-export default Page
+export default Courses
