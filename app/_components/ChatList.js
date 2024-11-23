@@ -140,7 +140,7 @@ const ChatList = ({ chats, userId }) => {
     useEffect(() => {
         document.addEventListener("mousedown", handleClickOutside);
         return () => document.removeEventListener("mousedown", handleClickOutside);
-    }, []);
+    },);
     const handleSearch = async (e) => {
         const query = e.target.value;
         setSearchTerm(query);

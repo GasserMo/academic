@@ -1,6 +1,5 @@
 
 import Announcements from "@/app/_components/Students/Announcements"
-import TimeTable from "@/app/_components/Students/CoursesTimeTable"
 import TeacherHomeDetails from "@/app/_components/teacher/TeacherHomeDetails"
 import { getCourses } from "@/app/actions/getCourses"
 import Image from "next/image"
@@ -36,7 +35,7 @@ function HomeDetails({ number, name, image }) {
     return <div className="flex flex-grow flex-col py-4 items-center
      bg-yellow-50 border
      border-gray-400 rounded-xl">
-        <Image src={image}
+        <Image alt="Home" src={image}
             width={120}
             height={120}
         />

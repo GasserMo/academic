@@ -26,7 +26,7 @@ function Files({ id }) {
         }
         getUser()
 
-    }, [])
+    }, [role])
     const handleFileChange = async (event) => {
         const files = event.target.files;
         const filesArray = Array.from(files);

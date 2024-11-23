@@ -81,7 +81,7 @@ function Page({ params }) {
             }
         }
         fetchQuestionBank()
-    }, [])
+    }, [id])
 
     if (loading) {
         return <Loading />; // Show loading indicator

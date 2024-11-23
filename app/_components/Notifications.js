@@ -37,7 +37,7 @@ function Notifications() {
     useEffect(() => {
         document.addEventListener("mousedown", handleClickOutside);
         return () => document.removeEventListener("mousedown", handleClickOutside);
-    }, []);
+    },);
 
     return (
         <div className="md:flex cursor-pointer rounded-xl px-3 flex items-center"

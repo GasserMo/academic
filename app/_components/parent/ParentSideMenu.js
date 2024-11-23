@@ -49,7 +49,7 @@ function ParentSideMenu() {
             }
         }
         fetchChildren()
-    }, [])
+    }, [userId])
     const toggleSidebar = () => {
         setIsOpen(!isOpen);
     };

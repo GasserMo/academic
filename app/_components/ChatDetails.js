@@ -64,7 +64,7 @@ const ChatDetails = ({ selectedChatId, userId, chats, }) => {
                 unsubscribeFromChatMessages(selectedChatId);
             }
         };
-    }, [selectedChatId]);
+    }, [selectedChatId, chats]);  // hereeeeeeeeeeeeeeee
 
     useEffect(() => {
         if (bottomRef.current) {
