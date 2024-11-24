@@ -31,6 +31,7 @@ function ParentSideMenu() {
                 "/Parent/Child": "Child",
                 "/Parent/Connect": "Connect",
                 "/Parent/Report": "Report",
+                "/Settings": "Settings",
             };
             setActiveItem(pathToItem[window.location.pathname] || "Home");
         }
@@ -173,7 +174,13 @@ function ParentSideMenu() {
                 </div>
                 <hr className="w-48 h-1 mx-auto my-4 bg-gray-100 border-0 rounded md:my-10" />
                 <div className="w-[80%] md:m-5">
-                    <SidebarItem><SettingIcon active={activeItem === "Settings"} /></SidebarItem>
+                    <Link href='/Settings'>
+                        <div onClick={() => handleItemClick("Settings")}>
+                            <SidebarItem>
+                                <SettingIcon active={activeItem === "Settings"} />
+                            </SidebarItem>
+                        </div>
+                    </Link>
                     <SidebarItem><LogoutIcon active={activeItem === "Logout"} /></SidebarItem>
                 </div>
             </div>

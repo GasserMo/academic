@@ -6,11 +6,12 @@ import { searchUsers } from "../actions/Search";
 import { HiXMark } from "react-icons/hi2";
 import { HiXCircle } from "react-icons/hi2";
 import { addGroup } from "../actions/chat";
-
+import { globalState } from "../context";
 const ChatList = ({ chats, userId }) => {
     const [selectedChatId, setSelectedChatId] = useState(null);
     const [localChats, setLocalChats] = useState(chats);
-
+    const { data } = useContext(globalState)
+    const role = data?.userData?.user?.role
     const [searchTerm, setSearchTerm] = useState('');
     const [filteredChats, setFilteredChats] = useState(chats);
     const [showSearch, setShowSearch] = useState(false);
@@ -327,8 +328,8 @@ const ChatList = ({ chats, userId }) => {
 
                     </div>
                 </div>}
-                <div onClick={handleOpenModal} className="w-[90%] mx-auto bg-slate-100 hover:bg-gray-300 cursor-pointer rounded-xl 
-                text-center p-3">Create a Group</div>
+                {role === 'teacher' && <div onClick={handleOpenModal} className="w-[90%] mx-auto bg-slate-100 hover:bg-gray-300 cursor-pointer rounded-xl 
+                text-center p-3">Create a Group</div>}
                 <hr className="w-full h-0.2 my-2 bg-gray-100" />
                 <div className="space-y-2 w-[90%]  space-x-1 scrollbar-thin
                  scrollbar-track-gray-200 scrollbar-thumb-bluePrimary overflow-y-auto">

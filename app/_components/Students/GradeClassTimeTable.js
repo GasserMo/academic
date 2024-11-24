@@ -1,10 +1,10 @@
 "use client";
 import { useEffect, useState } from "react";
 import { getGradeClassTimetable } from "@/app/actions/timetable";
-import { GetAUser } from "@/app/actions/getUser";
+import { GetAUser, GetAUserByParent } from "@/app/actions/getUser";
 import '@/app/_styles/globals.css';
 
-const GradeClassTimeTable = () => {
+const GradeClassTimeTable = ({ id }) => {
     const [timeTable, setTimetable] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -13,8 +13,17 @@ const GradeClassTimeTable = () => {
     useEffect(() => {
         const fetchGradeClassTimetable = async () => {
             try {
-                const userData = await GetAUser();
-                const gradeClassId = userData.user.gradeClass._id;
+                if (!id) {
+                    const userData = await GetAUser();
+                    const gradeClassId = userData.user.gradeClass._id;
+                    const data = await getGradeClassTimetable({ gradeClassId });
+                    setTimetable(data.timetable || []);
+                }
+                /*  const userData = await GetAUser();
+                 const gradeClassId = userData.user.gradeClass._id;
+                 const data = await getGradeClassTimetable({ gradeClassId }); */
+                const userData = await GetAUserByParent({ id })
+                const gradeClassId = userData?.user?.gradeClass._id;
                 const data = await getGradeClassTimetable({ gradeClassId });
                 setTimetable(data.timetable || []);
             } catch (error) {
