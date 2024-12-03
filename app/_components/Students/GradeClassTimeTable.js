@@ -77,18 +77,7 @@ const GradeClassTimeTable = ({ id }) => {
         return schedule;
     };
 
-    if (isLoading) {
-        return (
-            <div className="mt-5 md:mt-3 w-full md:min-h-[60vh] justify-center items-center max-h-[80vh] bg-white rounded-2xl">
-                <div className="mt-3 flex  h-full justify-center items-center">
-                    <div className="flex items-center justify-center self-center ">
-                        <div className="w-8 h-8 rounded-full animate-spin border 
-                     border-solid border-cyan-500 border-t-transparent"></div>
-                    </div>
-                </div>
-            </div>
-        );
-    }
+
 
     if (error) {
         return <p className="text-red-500 font-poppins">{error}</p>;
@@ -145,9 +134,8 @@ const GradeClassTimeTable = ({ id }) => {
                             </div>
                         ))
                     ) : (
-                        <p className="font-poppins text-center text-gray-500">
-                            No timetable data available for today.
-                        </p>
+                        <p className="font-poppins text-center">No Timetable available</p>
+
                     )
                 }
 

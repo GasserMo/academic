@@ -30,20 +30,24 @@ function Students({ id }) {
                 <div className="w-12 h-12 rounded-full animate-spin border border-solid border-cyan-500 border-t-transparent">
                 </div>
             </div> :
-                <div className='flex flex-col  justify-start '>
-                    {students.map((student, index) => {
-                        return <div key={student._id} className="flex items-center space-x-2  p-2">
-                            <p className="font-poppins font-semibold mr-3">{index + 1}</p>
-                            <div className='flex items-center justify-center h-10 text-white w-10 rounded-full bg-sky-900'>
-                                <p>{student.name.first.charAt(0)}</p>
-                                <p>{student.name.last.charAt(0)}</p>
-
-
+                <div className="flex flex-col justify-start">
+                    {students.length > 0 ? (
+                        students.map((student, index) => (
+                            <div key={student._id} className="flex items-center space-x-2 p-2">
+                                <p className="font-poppins font-semibold mr-3">{index + 1}</p>
+                                <div className="flex items-center justify-center h-10 text-white w-10 rounded-full bg-sky-900">
+                                    <p>{student.name.first.charAt(0)}</p>
+                                    <p>{student.name.last.charAt(0)}</p>
+                                </div>
+                                <p className="font-poppins">
+                                    {student.name.first} {student.name.last}
+                                </p>
                             </div>
-                            <p className='font-poppins'>{student.name.first} {student.name.last}</p>
-                        </div>
-                    })}
+                        ))
+                    ) : (
+                        <p className="font-poppins text-center">No Students available</p>
 
+                    )}
                 </div>}</>
     )
 }
