@@ -29,7 +29,7 @@ function ReportDetails({ selectedReportId }) {
     }, [selectedReportId]);
 
     if (!selectedReportId) {
-        return <p className="flex items-center justify-center font-poppins font-light 
+        return <p className="flex items-center md:h-full justify-center font-poppins font-light 
         ">Select a report to view details</p>;
     }
 

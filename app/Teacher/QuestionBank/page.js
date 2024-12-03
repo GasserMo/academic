@@ -23,14 +23,24 @@ function Page() {
         const { name, value } = e.target;
         setModalData({ ...modalData, [name]: value });
     };
-    const handleSave = async () => {
+    const handleSave = async (event) => {
+        // Prevent the default form submission behavior
+        event.preventDefault();
+
         try {
             setLoading(true);
             setError(null);
+
+            if (!modalData.title || !modalData.description || !selectedCourse) {
+                setError('Please fill in all fields');
+                return;
+            }
+
             const savedData = await createQuestionBank({
                 courseId: selectedCourse,
-                modalData
+                modalData,
             });
+
             console.log("Question saved:", savedData);
             setQuestionBanks((prevQuestionBanks) => [
                 ...prevQuestionBanks,
