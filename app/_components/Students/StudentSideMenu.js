@@ -11,6 +11,7 @@ import Link from "next/link";
 import { HiMenu } from "react-icons/hi";
 import { useEffect, useState } from "react";
 import CoursesIcon from "@/public/icons/CoursesIcon";
+import ExamIcon from "@/public/icons/ExamIcon";
 function StudentSideMenu() {
     const [isOpen, setIsOpen] = useState(false); // Sidebar state
     const [activeItem, setActiveItem] = useState("Home"); // Track the active sidebar item
@@ -21,6 +22,8 @@ function StudentSideMenu() {
                 "/Student/Courses": "Courses",
                 "/Student/TodoList": "TodoList",
                 "/Student/Assignments": "Assignments",
+                "/Student/Exams": "CourseExams",
+
             };
             setActiveItem(pathToItem[window.location.pathname] || "Home");
         }
@@ -34,6 +37,17 @@ function StudentSideMenu() {
         setIsOpen(false);
     };
 
+    const logout = () => {
+        localStorage.removeItem("userData");
+        setData((prevState) => {
+            return {
+                ...prevState,
+                userData: null,
+            };
+        });
+        router.push('/Register');
+
+    };
     return (
         <div>
             {/* Mobile Menu Toggle */}
@@ -101,6 +115,7 @@ function StudentSideMenu() {
                             </SidebarItem>
                         </div>
                     </Link>
+
                     <Link href="/Student/Assignments">
                         <div onClick={() => handleItemClick("Assignments")}>
                             <SidebarItem active={activeItem === "Assignments"}>
@@ -108,11 +123,26 @@ function StudentSideMenu() {
                             </SidebarItem>
                         </div>
                     </Link>
+                    <Link href="/Student/Exams">
+                        <div onClick={() => handleItemClick("Exams")}>
+                            <SidebarItem active={activeItem === "Exams"}>
+                                <ExamIcon active={activeItem === "Exams"} />
+                            </SidebarItem>
+                        </div>
+                    </Link>
                 </div>
                 <hr className="w-48 h-1 mx-auto my-4 bg-gray-100 border-0 rounded md:my-10" />
                 <div className="w-[80%] md:m-5">
-                    <SidebarItem><SettingIcon active={activeItem === "Settings"} /></SidebarItem>
-                    <SidebarItem><LogoutIcon active={activeItem === "Logout"} /></SidebarItem>
+                    <Link href='/Settings'>
+                        <div onClick={() => handleItemClick("Settings")}>
+                            <SidebarItem>
+                                <SettingIcon active={activeItem === "Settings"} />
+                            </SidebarItem>
+                        </div>
+                    </Link>
+                    <div className="cursor-pointer" onClick={() => logout()}>
+                        <SidebarItem><LogoutIcon active={activeItem === "Logout"} /></SidebarItem>
+                    </div>
                 </div>
             </div>
         </div>

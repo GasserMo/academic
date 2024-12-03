@@ -83,7 +83,7 @@ function ReportDetails({ selectedReportId }) {
 
     return (
         <div className="flex flex-col justify-between
-        mt-3 mx-5 min-h-[20vh] max-h-[100vh] md:min-h-[80vh] bg-white rounded-2xl">
+        md:mt-3 md:mx-5 min-h-[20vh] max-h-[100vh] md:min-h-[80vh] bg-white rounded-2xl">
             <div className="flex m-3 items-start flex-col">
                 <div className="flex flex-col ml-3">
                     <p className="font-poppins text-[15px]">{`${to.name.first} ${to.name.last}`}</p>
@@ -140,8 +140,8 @@ function ReportDetails({ selectedReportId }) {
                             <div className="flex flex-col bg-blueHover p-3 rounded-2xl">
                                 <p className="font-poppins text-[15px] font-semibold">Reply</p>
                                 <div className="flex items-center space-x-2">
-                                    <p className="font-poppins text-[15px] ">From :</p>
-                                    <p className="font-poppins text-[10px] text-gray-500 ">{to.email}</p>
+                                    <p className="font-poppins text-[15px] ">From:</p>
+                                    <p className="font-poppins text-[10px] text-gray-500 overflow-hidden">{to.email}</p>
                                 </div>
                                 <p className="font-poppins text-[14px] text-gray-600">{reply}</p>
                             </div>

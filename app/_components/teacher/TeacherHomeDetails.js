@@ -33,7 +33,7 @@ const TeacherHomeDetails = async () => {
 
     return (
         <div>
-            <div className="flex flex-col mx-auto mt-3 w-[90%] bg-white p-3 rounded-xl">
+            <div className="flex flex-col mx-auto mt-3 w-[95%]  md:w-[90%] bg-white p-3 rounded-xl">
                 <p className="font-poppins text-headline-title">Hello, {fullName}</p>
                 <p className="font-poppins text-gray-500">Welcome To our School
                     <br />Start creating highly engaging

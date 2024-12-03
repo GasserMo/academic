@@ -80,6 +80,32 @@ export async function getComment({ postId }) {
 }
 
 
+export async function addComment(formData, postId) {
+    const token = JSON.parse(localStorage.getItem("userData"))?.token;
+    const url = `https://academiq.onrender.com/discussions/posts/comments/${postId}`
+    try {
+        const response = await fetch(url, {
+            method: "POST",
+            headers: {
+                "Authorization": `Bearer ${token}`
+            },
+            body: formData
+        });
+
+        if (!response.ok) {
+            const errorData = await response.json();
+            console.error("Error Data:", errorData);
+            throw new Error(errorData.error || "Unknown error");
+        }
+        const data = await response.json();
+        return data.post;
+
+    } catch (error) {
+        console.error("Error logging in:", error);
+        throw error;
+    }
+}
+
 export async function addPost(formData) {
     const token = JSON.parse(localStorage.getItem("userData"))?.token;
 

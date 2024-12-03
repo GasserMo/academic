@@ -150,7 +150,8 @@ const ChatDetails = ({ selectedChatId, userId, chats, }) => {
     };
 
     return (
-        <div className="flex flex-col justify-between mx-5  max-h-[100vh] min-h-[40vh] md:max-h-[90vh] bg-white rounded-2xl">
+        <div className="flex flex-col mt-3 md:mt-0 justify-between md:mx-5
+  max-h-[100vh] min-h-[40vh] md:max-h-[90vh] bg-white rounded-2xl overflow-x-hidden">
             <div className="flex m-3 items-start flex-col">
                 <div className="flex flex-col ml-3">
                     <p className="font-poppins text-[15px]">

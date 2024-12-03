@@ -7,11 +7,10 @@ import { AiOutlinePaperClip } from 'react-icons/ai'; // Import the attachment ic
 import { HiCheckCircle } from "react-icons/hi2";
 
 function AssignmentDetailPage({ assignmentId, submitted }) {
+    const [files, setFiles] = useState([]); // Add this line to initialize the files state
 
-    const [assignment, setAssignment] = useState(null);
-    const fileInputRef = useRef(null); // Create a ref for the file input
-    const [isLoading, setLoading] = useState(false);
-    const [isSubmitting, setIsSubmitting] = useState(false);
+    // The rest of your code remains the same
+
     const handleFileUpload = () => {
         if (fileInputRef.current) {
             fileInputRef.current.click();
@@ -20,8 +19,18 @@ function AssignmentDetailPage({ assignmentId, submitted }) {
 
     const handleFileChange = (event) => {
         const selectedFiles = Array.from(event.target.files);
-        setFiles((prevFiles) => [...prevFiles, ...selectedFiles]); // Append new files to existing ones
+        setFiles((prevFiles) => [...prevFiles, ...selectedFiles]); // Append new files to the state
     };
+
+    const handleRemoveFile = (index) => {
+        setFiles((prevFiles) => prevFiles.filter((_, i) => i !== index)); // Remove a file from the list
+    };
+    const [assignment, setAssignment] = useState(null);
+    const fileInputRef = useRef(null); // Create a ref for the file input
+    const [isLoading, setLoading] = useState(false);
+    const [isSubmitting, setIsSubmitting] = useState(false);
+
+
 
     const handleSubmit = async () => {
         if (files.length === 0) {

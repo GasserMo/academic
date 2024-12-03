@@ -1,5 +1,6 @@
 import SideMenu from "./_components/Students/StudentSideMenu";
 import Context from "./context";
+import '../app/_styles/globals.css';
 
 export const metadata = {
   title: "Academiq",

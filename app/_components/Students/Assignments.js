@@ -80,7 +80,7 @@ function Assignments({ id }) {
                         </div>
 
                         <p className='py-4 '>Deadline : {formatDate(assignment.endDate)} </p>
-                        <div className='flex'>
+                        <div className='md:flex hidden '>
                             <div className='h-5 w-5 rounded-full bg-sky-900'>
                                 <Image
                                     src='/learn.png'

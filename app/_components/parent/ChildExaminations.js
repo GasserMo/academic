@@ -2,7 +2,7 @@
 const ChildExaminations = ({ data }) => {
     if (!data) {
         return (
-            <div className="flex flex-col p-2 bg-white  my-4 mx-auto">
+            <div className="flex flex-col p-2 bg-white my-4 mx-auto">
                 <div className="mt-3 flex justify-center items-center w-[90%]">
                     <div className="flex items-center justify-center self-center">
                         <div className="w-8 h-8 rounded-full animate-spin border 
@@ -39,7 +39,7 @@ function ExamDetails({ title, status, score, duration, endDate, startDate }) {
         });
     }
     return (
-        <div className="flex flex-col my-4 bg-[#EBF4F7] shadow-lg shadow-gray-300 p-2 space-y-2 rounded-xl">
+        <div className="flex    flex-col my-4 bg-[#EBF4F7] shadow-lg shadow-gray-300 p-2 space-y-2 rounded-xl">
 
             <div className="flex-col">
                 <div className="flex justify-between">

@@ -34,7 +34,7 @@ const ProfileDetails = async () => {
 
     return (
 
-        <div className=" md:flex space-x-5 cursor-pointer rounded-xl  pt-3 flex items-center justify-evenly ">
+        <div className="hidden md:flex space-x-5 cursor-pointer rounded-xl  pt-3 flex items-center justify-evenly ">
             <Link href={`/Profile/${userId}`} className={`${picture ? ' w-[15%]' :
 
                 'w-12 h-12 rounded-full flex items-center justify-center bg-bluePrimary'}`}>

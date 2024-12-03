@@ -52,6 +52,32 @@ export async function getAssignments() {
     }
 
 }
+export async function getAssessmentByStatus() {
+
+    const url = `https://academiq.onrender.com/assessments?status=completed&type=exam`;
+    const token = JSON.parse(localStorage.getItem("userData"))?.token;
+    try {
+        const response = await fetch(url, {
+            method: 'GET',
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}`
+            },
+        })
+        if (!response.ok) {
+            const errorData = await response.json();
+            console.error("Error Data:", errorData);
+            throw new Error(errorData.error || "Unknown error");
+        }
+        let data = await response.json();
+
+        return data
+    } catch (error) {
+        console.error("Error getting user data", error);
+        throw error;
+    }
+
+}
 export async function getOneAssignment({ id }) {
 
     const url = `https://academiq.onrender.com/assessments/${id}`;
@@ -78,29 +104,18 @@ export async function getOneAssignment({ id }) {
 
 }
 
-
-export async function updateAssignment({ id, modalData }) {
+export async function updateAssignment({ id, formData }) {
     const url = `https://academiq.onrender.com/assessments/${id}`;
     const token = JSON.parse(localStorage.getItem("userData"))?.token;
-
-    const requestBody = {
-        title: modalData.title,
-        description: modalData.description,
-        duration: modalData.duration,
-        score: modalData.score,
-        startDate: modalData.startDate,
-        endDate: modalData.endDate,
-        courseId: modalData.courseId,
-    };
 
     try {
         const response = await fetch(url, {
             method: 'PUT',
             headers: {
-                "Content-Type": "application/json",
-                "Authorization": `Bearer ${token}`
+                "Content-Type": "application/json", // Set Content-Type to JSON
+                "Authorization": `Bearer ${token}`,  // Only set Authorization header
             },
-            body: JSON.stringify(requestBody),
+            body: JSON.stringify(formData), // Convert formData to JSON string
         });
 
         if (!response.ok) {
@@ -108,11 +123,12 @@ export async function updateAssignment({ id, modalData }) {
             console.error("Error Data:", errorData);
             throw new Error(errorData.error || "Unknown error");
         }
-        const data = await response.json()
-        console.log("data of assignment added successfully");
+
+        const data = await response.json();
+        console.log("Assignment updated successfully:", data);
         return data;
     } catch (error) {
-        console.error("Error adding question", error);
+        console.error("Error updating assignment:", error);
         throw error;
     }
 }
@@ -147,20 +163,22 @@ export async function createAssignment(modalData) {
 }
 
 
-export async function addMaterial(file) {
-    const url =
-        `https://academiq.onrender.com/assessments/6675b491e75f8503094f472c/materials`;
+export async function addMaterialsToAssessment(id, materials) {
+    const url = `https://academiq.onrender.com/assessments/${id}/materials`;
     const token = JSON.parse(localStorage.getItem("userData"))?.token;
 
+    const formData = new FormData();
+    for (let i = 0; i < materials.length; i++) {
+        formData.append("materials", materials[i]);
+    }
 
     try {
         const response = await fetch(url, {
-            method: 'POST',
+            method: 'PATCH',
             headers: {
-                "Content-Type": "application/json",
                 "Authorization": `Bearer ${token}`
             },
-            body: JSON.stringify(file),
+            body: materials, // Send the FormData directly
         });
 
         if (!response.ok) {
@@ -168,11 +186,11 @@ export async function addMaterial(file) {
             console.error("Error Data:", errorData);
             throw new Error(errorData.error || "Unknown error");
         }
-        const data = await response.json()
-        console.log("material added successfully");
+        const data = await response.json();
+        console.log("Material added successfully");
         return data;
     } catch (error) {
-        console.error("Error adding question", error);
+        console.error("Error adding materials", error);
         throw error;
     }
 }

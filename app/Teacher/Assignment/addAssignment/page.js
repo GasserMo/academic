@@ -1,5 +1,5 @@
 "use client"
-import { createAssignment, updateAssignment } from '@/app/actions/getAssignment';
+import { addMaterialsToAssessment, createAssignment, updateAssignment } from '@/app/actions/getAssignment';
 import { GetAUser } from '@/app/actions/getUser';
 import { useEffect, useRef, useState } from 'react';
 import { AiOutlinePaperClip } from 'react-icons/ai'; // Import the attachment icon
@@ -18,7 +18,9 @@ function AddAssignment() {
         startDate: "",
         endDate: "",
         score: "",
+
     });
+    const [assignmentMaterials, setAssignmentMaterials] = useState([]);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -33,24 +35,46 @@ function AddAssignment() {
             fileInputRef.current.click(); // Trigger the file input click
         }
     };
-    const handleFileChange = (event) => {
-        const files = event.target.files;
-        if (files.length > 0) {
-            setFileName(files[0].name); // Set the file name to state
-        }
+    const handleFilesChange = (e) => {
+        const files = e.target.files;
+        setAssignmentMaterials(files);
+        console.log("Selected files:", files);
     };
+    /*    useEffect(() => {
+           console.log("Updated assignment materials:", assignmentMaterials);
+       }, [assignmentMaterials]); */
     const handleSave = async (e) => {
+        const formData = new FormData();
 
+        formData.append("title", modalData.title);
+        formData.append("description", modalData.description);
+        formData.append("duration", modalData.duration);
+        formData.append("score", modalData.score);
+        formData.append("startDate", modalData.startDate);
+        formData.append("endDate", modalData.endDate);
+        formData.append("courseId", modalData.courseId);
+        const filesData = new FormData();
+        for (let i = 0; i < assignmentMaterials.length; i++) {
+            filesData.append("materials", assignmentMaterials[i]);
+        }
+        for (const [key, value] of filesData.entries()) {
+            console.log(key, value); // This will log each key-value pair
+        }
         try {
             const createdAssignment = await createAssignment({ type: "assignment" });
             const assignmentId = createdAssignment.assessment._id;
-            const updatedAssignment = await updateAssignment({ id: assignmentId, modalData });
+            const updatedAssignment = await updateAssignment({
+                id: assignmentId,
+                formData,
+            });
+            await addMaterialsToAssessment('6675b491e75f8503094f472c', filesData);
+            console.log(filesData);
+
             console.log("Assignment updated successfully:", updatedAssignment);
         } catch (error) {
-            console.log('HERE' + error)
+            console.log('Error:', error);
         }
-
-    }
+    };
     useEffect(() => {
         const fetchCourses = async () => {
             try {
@@ -99,7 +123,7 @@ function AddAssignment() {
 
             >
             </textarea>
-            <div className="flex justify-between space-x-2 items-center">
+            <div className="flex flex-wrap justify-between space-x-2 items-center">
                 <div >
                     <label className="text-[10px]">Start Date</label>
                     <input
@@ -148,7 +172,7 @@ function AddAssignment() {
                         value={modalData.duration}
                         onChange={handleChange}
                         placeholder="Duration"
-                        className="border border-gray-300 focus:outline-none focus:border-bluePrimary focus:ring-1 focus:ring-bluePrimary rounded "
+                        className="border p-3 md:p-0 border-gray-300 focus:outline-none focus:border-bluePrimary focus:ring-1 focus:ring-bluePrimary rounded "
                     />
                 </div>
             </div>
@@ -165,7 +189,7 @@ function AddAssignment() {
             <input
                 type="file"
                 ref={fileInputRef}
-                onChange={handleFileChange}
+                onChange={handleFilesChange}
                 className="hidden"
             />
             <div className="grid grid-cols-[50%_50%]">

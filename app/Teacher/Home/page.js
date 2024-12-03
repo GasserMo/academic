@@ -14,8 +14,8 @@ const Page = async () => {
             <div className="flex flex-col ">
                 <TeacherHomeDetails />
                 <Announcements />
-                <div className="mx-auto mt-3 w-[90%] bg-white flex p-3 
-                justify-between rounded-xl space-x-2">
+                <div className="mx-auto md:mt-3 w-[90%] bg-white flex md:p-3 
+                md:justify-between rounded-xl space-x-2">
                     <HomeDetails image={'/laptop white screen.svg'}
                         number={courses.length} name={'Total Courses'} />
                     <HomeDetails image={'/laptop white screen.svg'} number={7} name={'Total Students'} />
@@ -32,15 +32,15 @@ const Page = async () => {
 export default Page
 
 function HomeDetails({ number, name, image }) {
-    return <div className="flex flex-grow flex-col py-4 items-center
-     bg-yellow-50 border
-     border-gray-400 rounded-xl">
+    return <div className="flex flex-grow flex-col py-4  items-center
+     bg-gray-100 border text-center  
+     border-bluePrimary rounded-xl">
         <Image alt="Home" src={image}
-            width={120}
-            height={120}
+            width={150}
+            height={150}
         />
-        <p className="font-poppins text-bluePrimary">{number}</p>
-        <p className="font-poppins ">{name}</p>
+        <p className="font-poppins text-bluePrimary text-lg">{number}</p>
+        <p className="font-poppins text-sm">{name}</p>
     </div>
 
 }

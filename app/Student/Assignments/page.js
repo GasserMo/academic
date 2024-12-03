@@ -80,8 +80,8 @@ function Page() {
                     ))
                 )}
             </div>
-            <div className="flex-1 bg-white
-             md:ml-4  mt-2 mr-4 my-2 rounded-xl">
+            <div className="flex-1 bg-white w-[90%] mx-auto
+             md:ml-4 mt-4  mr-4 my-2 rounded-xl">
                 {selectedAssignmentId ? (
                     <AssignmentDetailPage
                         submitted={selectedAssignment.isSubmitted}

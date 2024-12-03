@@ -1,6 +1,7 @@
 "use client"
 import CourseText from "@/app/_components/CourseText";
 import Assignments from "@/app/_components/Students/Assignments";
+import CourseTimetable from "@/app/_components/Students/CoursesTimeTable";
 import Files from "@/app/_components/Students/Files";
 import Posts from "@/app/_components/Students/Posts";
 import Students from "@/app/_components/Students/Students";
@@ -33,6 +34,7 @@ function Page(context) {
          return () => clearInterval(intervalId); */
     }, [id])
     let studentId = null
+
     useEffect(() => {
         const fetchOneCourse = async () => {
             try {
@@ -79,6 +81,7 @@ function Page(context) {
 
 
             </div>
+            <CourseTimetable courseId={id} />
         </div>
     )
 }

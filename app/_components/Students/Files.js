@@ -79,51 +79,56 @@ function Files({ id }) {
         document.body.removeChild(a);
     };
     return (
-        <div className='flex flex-col'>
-            {role === 'teacher' && <div onClick={handleFileUpload} className='cursor-pointer w-[90%] md:w-[90%] mx-auto p-2 my-2 border space-x-2 rounded-md
-             border-gray-300 flex items-center'>
-                <PlusIcon />
-                <p>Add File</p>
-                <input
-                    type="file"
-                    ref={fileInputRef}
-                    onChange={handleFileChange}
-                    className="hidden"
-                />
-            </div>}
-            {isLoading && (
-                <div className="flex items-center justify-center self-center">
+        <>
+            {isLoading ? (
+                <div className="flex h-full items-center justify-center self-center">
                     <div className="w-12 h-12 rounded-full animate-spin border border-solid border-cyan-500 border-t-transparent">
                     </div>
                 </div>
-            )}
-            {!isLoading && materials?.length === 0 && <p>No materials available</p>}
+            ) :
+                <div className='flex flex-col '>
+                    {role === 'teacher' && <div onClick={handleFileUpload} className='cursor-pointer w-[90%] md:w-[90%] mx-auto p-2 my-2 border space-x-2 rounded-md
+             border-gray-300 flex items-center'>
+                        <PlusIcon />
+                        <p>Add File</p>
+                        <input
+                            type="file"
+                            ref={fileInputRef}
+                            onChange={handleFileChange}
+                            className="hidden"
+                        />
+                    </div>}
 
-            {!isLoading && materials?.length > 0 && materials?.map((material) => (
-                <div key={material._id} className="flex md:w-[90%] mx-auto p-2">
-                    <div className='h-14 w-14 rounded-lg bg-sky-900'>
-                        <Image
-                            src='/learn.png'
-                            alt="Image"
-                            width={100}
-                            height={120}
-                        />
-                    </div>
-                    <div className='flex flex-col w-[50%] justify-start ml-2'>
-                        <p className='font-poppins overflow-x-hidden'>{material.title}</p>
-                        <p className='font-poppins text-gray-400 overflow-x-hidden'>
-                            Uploaded at: {formatDate(material.uploadDate)}</p>
-                    </div>
-                    <div>
-                        <AiOutlineDownload
-                            className="text-blue-500 cursor-pointer"
-                            onClick={() => handleDownload(material.url)} // Trigger download when clicked
-                            size={20}
-                        />
-                    </div>
+                    {!isLoading && materials?.length === 0 && <p className="font-poppins text-center">No materials available</p>}
+
+                    {!isLoading && materials?.length > 0 && materials?.map((material) => (
+                        <div key={material._id} className="flex md:w-[90%] mx-auto p-2">
+                            <div className='h-14 w-14 rounded-lg bg-sky-900'>
+                                <Image
+                                    src='/learn.png'
+                                    alt="Image"
+                                    width={100}
+                                    height={120}
+                                />
+                            </div>
+                            <div className='flex flex-col w-[50%] justify-start ml-2'>
+                                <p className='font-poppins overflow-x-hidden'>{material.title}</p>
+                                <p className='font-poppins text-gray-400 overflow-x-hidden'>
+                                    Uploaded at: {formatDate(material.uploadDate)}</p>
+                            </div>
+                            <div>
+                                <AiOutlineDownload
+                                    className="text-blue-500 cursor-pointer"
+                                    onClick={() => handleDownload(material.url)} // Trigger download when clicked
+                                    size={20}
+                                />
+                            </div>
+                        </div>
+                    ))}
                 </div>
-            ))}
-        </div>
+            }
+        </>
+
 
     )
 }

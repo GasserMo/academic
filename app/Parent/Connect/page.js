@@ -4,8 +4,10 @@ import ConnectInbox from "@/app/_components/ConnectInbox"
 function Page() {
     return (
 
-        <ConnectInbox />
+        <div>
+            <ConnectInbox />
 
+        </div>
     )
 }
 

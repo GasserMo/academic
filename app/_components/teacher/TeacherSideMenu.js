@@ -28,7 +28,7 @@ function TeacherSideMenu() {
                 "/Teacher/Home": "Home",
                 "/Teacher/Courses": "Courses",
                 "/Teacher/QuestionBank": "QuestionBank",
-                "/Teacher/Exams": "CourseExamss",
+                "/Teacher/Exams": "CourseExams",
                 "/Teacher/Grades": "Grades",
                 "/Teacher/Attendance": "Attendance",
                 "/Teacher/Assignment": "Assignment",
@@ -51,7 +51,7 @@ function TeacherSideMenu() {
 
     return (
         <div>
-            <div className="flex flex-row items-center  px-4 py-2 md:hidden">
+            <div className="flex flex-row items-center   px-4 py-2 md:hidden">
                 <HiMenu
                     className="text-bluePrimary cursor-pointer"
                     size={20}
@@ -69,8 +69,8 @@ function TeacherSideMenu() {
             )}
 
             <div
-                className={`fixed top-0 left-0 z-50 h-full w-64
-                     bg-white shadow-md  
+                className={`fixed top-0 left-0 z-50 h-full w-64 
+                     bg-white shadow-md  md:max-h-[120vh]
                      md:rounded-xl md:my-2 md:mx-2
                      transition-transform transform
                       ${isOpen ? "translate-x-0" : "-translate-x-full"

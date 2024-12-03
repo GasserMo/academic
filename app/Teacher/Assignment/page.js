@@ -74,12 +74,12 @@ function Page() {
                 </Link>
 
             </div>
-            <div className="flex-1 bg-white
-             md:ml-4  mt-2 mr-4 my-2 rounded-xl">
+            <div className="flex-1 bg-white w-[90%] mx-auto
+             md:ml-4  mt-4 mr-4 my-2 rounded-xl">
                 {selectedAssignmentId ? (
                     <AssignmentDetailPage assignmentId={selectedAssignmentId} />
                 ) : (
-                    <div className="flex h-full  items-center  justify-center text-gray-500 font-poppins">
+                    <div className="flex h-full items-center  justify-center text-gray-500 font-poppins">
                         Select an assignment to view its details.
                     </div>
                 )}

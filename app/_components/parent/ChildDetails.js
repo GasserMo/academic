@@ -184,7 +184,9 @@ function ChildDetails({ id }) {
                 </div>
 
             </div >
-            <GradeClassTimeTable id={id} />
+            <div className="mx-auto w-[90%]">
+                <GradeClassTimeTable id={id} />
+            </div>
         </div>
 
     )

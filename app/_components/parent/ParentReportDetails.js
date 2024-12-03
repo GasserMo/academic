@@ -30,7 +30,7 @@ function ParentReportDetails({ selectedReportId }) {
     }, [selectedReportId]);
 
     if (!selectedReportId) {
-        return <p className="flex items-center justify-center font-poppins font-light 
+        return <p className="flex items-center p-5 justify-center font-poppins font-light 
         ">Select a report to view details</p>;
     }
     if (loading) return <div>

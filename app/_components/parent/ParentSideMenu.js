@@ -14,12 +14,13 @@ import ConnectIcon from "@/public/icons/ConnectIcon";
 import { getChildByParent } from "@/app/actions/getChild";
 import { globalState } from "@/app/context";
 import { useRouter } from "next/navigation";
+
 function ParentSideMenu() {
     const [isOpen, setIsOpen] = useState(false);
     const [activeItem, setActiveItem] = useState("Home");
     const [childMenuOpen, setChildMenuOpen] = useState(false);
     const [childList, setChildList] = useState([]);
-    const { data } = useContext(globalState)
+    const { data, setData } = useContext(globalState)
     const userId = data?.userData?.user?._id
     const router = useRouter();
 
@@ -64,13 +65,19 @@ function ParentSideMenu() {
     };
     const toggleChildMenu = () => {
         setChildMenuOpen(!childMenuOpen);
-        setActiveItem("Child"); // Set "Child" as the active item
-
-        /* if (childList.length > 0) {
-            router.push(`/Parent/Child/${childList[0]._id}`);
-        } */
+        setActiveItem("Child");
     };
+    const logout = () => {
+        localStorage.removeItem("userData");
+        setData((prevState) => {
+            return {
+                ...prevState,
+                userData: null,
+            };
+        });
+        router.push('/Register');
 
+    };
     return (
         <div>
             {/* Mobile Menu Toggle */}
@@ -181,7 +188,9 @@ function ParentSideMenu() {
                             </SidebarItem>
                         </div>
                     </Link>
-                    <SidebarItem><LogoutIcon active={activeItem === "Logout"} /></SidebarItem>
+                    <div className="cursor-pointer" onClick={() => logout()}>
+                        <SidebarItem><LogoutIcon active={activeItem === "Logout"} /></SidebarItem>
+                    </div>
                 </div>
             </div>
         </div>

@@ -155,7 +155,7 @@ function Page({ params }) {
             )}
             <Link href={`/Teacher/QuestionBank/unit/${id}/addQuestion`}>
                 <div className='flex justify-end w-full p-1 my-4 cursor-pointer'>
-                    <div className='w-[30%] p-1 space-x-2 rounded-md flex justify-center bg-bluePrimary'>
+                    <div className='md:w-[30%] p-1 space-x-2 rounded-md flex justify-center bg-bluePrimary'>
                         <p className='font-poppins text-white text-[15px]'>Add Question</p>
                     </div>
                 </div>

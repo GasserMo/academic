@@ -157,7 +157,7 @@ function Page() {
             </div>}
             <p className='font-poppins text-headline-small'>Question Banks</p>
 
-            <div onClick={() => handleOpenModal()} className='w-[30%] p-1 my-4 border space-x-2 rounded-md
+            <div onClick={() => handleOpenModal()} className='md:w-[30%] p-1 my-4 border space-x-2 rounded-md
              border-bluePrimary flex items-center cursor-pointer'>
                 <PlusIcon />
                 <p className='font-poppins text-bluePrimary text-[15px]'>Create Question Bank</p>

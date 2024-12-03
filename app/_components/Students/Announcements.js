@@ -32,7 +32,8 @@ const AnnouncementsPage = async () => {
     }
 
     return (
-        <div className="flex flex-col border rounded-lg p-2 bg-white w-[90%] my-4 mx-auto">
+        <div className="flex flex-col border rounded-lg p-2 
+        bg-white w-[95%]  md:w-[90%] my-4 mx-auto">
             <h1 className="text-lg font-poppins mb-1">Announcement</h1>
             <div className="flex overflow-x-auto space-x-4 scrollbar-thin scrollbar-track-white scrollbar-thumb-bluePrimary">
                 {posts.map((post) => (

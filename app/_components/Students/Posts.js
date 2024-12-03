@@ -4,11 +4,11 @@ import { AiOutlineLike, AiOutlinePaperClip, AiFillLike } from "react-icons/ai"; 
 
 import Image from 'next/image'
 import { useEffect, useRef, useState } from "react";
-import { addPost, getComment, LikePost } from "@/app/actions/discussions";
+import { addComment, addPost, getComment, LikePost } from "@/app/actions/discussions";
 
 function Posts({ posts, id, addNewPost }) {
-    /* const [showComments, setShowComments] = useState(false)
-    const [comments, setComments] = useState({}); */
+    const [showComments, setShowComments] = useState({});
+    const [comments, setComments] = useState({});
 
     const handleJoinMeeting = (roomId) => {
         console.log(`Joining meeting with room ID: ${roomId}`);
@@ -16,15 +16,16 @@ function Posts({ posts, id, addNewPost }) {
     };
     const postInputRef = useRef(null)
     const fileInputRef = useRef(null)
-    const [attachment, setAttachment] = useState([]); // State to hold the name of the attached file
+    const [attachment, setAttachment] = useState([]);
 
     const [openModal, setOpenModal] = useState(false)
     const [content, setContent] = useState('');
     const [isLoading, setIsLoading] = useState(false)
+    const [loadingComments, setLoadingComments] = useState({});
     const handleFileUpload = (event) => {
         const file = event.target.files[0];
         if (file) {
-            setAttachment(file); // Save file to state
+            setAttachment(file);
         }
     };
     const extractRoomId = (content) => {
@@ -32,9 +33,66 @@ function Posts({ posts, id, addNewPost }) {
         return match ? match[1] : null;
     };
     const [localPosts, setLocalPosts] = useState(posts);
+
+    const getCommentsForPost = async (postId) => {
+        if (comments[postId]?.length > 0) {
+            setShowComments((prevState) => ({
+                ...prevState,
+                [postId]: !prevState[postId],
+            }));
+            return;
+        }
+        setLoadingComments((prevState) => ({
+            ...prevState,
+            [postId]: true,
+        }));
+        try {
+            const data = await getComment({ postId });
+
+            // Set comments for the specific post
+            setComments((prevComments) => ({
+                ...prevComments,
+                [postId]: data.postComments,
+            }));
+
+            // Show comments for this post
+            setShowComments((prevState) => ({
+                ...prevState,
+                [postId]: true,
+            }));
+        } catch (error) {
+            console.error("Error fetching comments:", error);
+        } finally {
+            setLoadingComments((prevState) => ({
+                ...prevState,
+                [postId]: false,
+            }));
+        }
+    };
+
     useEffect(() => {
         setLocalPosts(posts);
     }, [posts]);
+
+    const handleSubmitComment = async (e, postId) => {
+        e.preventDefault();
+        try {
+            setIsLoading(true);
+            const formData = new FormData();
+            formData.append("content", content);
+            formData.append("courseId", id);  // Attach postId for comment
+            const newComment = await addComment(formData, postId);
+            console.log(newComment)
+
+            setContent('');
+            await getCommentsForPost(postId)
+        } catch (error) {
+            console.error("Error adding comment:", error);
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
 
     const toggleLike = async (postId) => {
         const postToUpdate = localPosts.find(post => post._id === postId);
@@ -107,6 +165,7 @@ function Posts({ posts, id, addNewPost }) {
             const newPost = await addPost(formData);
 
             setLocalPosts((prevPosts) => [...prevPosts, newPost]);
+
             addNewPost(newPost);
             setContent('');
             setOpenModal(false);
@@ -118,28 +177,28 @@ function Posts({ posts, id, addNewPost }) {
 
         }
     };
-    /*  const toggleComments = async (postId) => {
-         setShowComments(prevState => ({
-             ...prevState,
-             [postId]: !prevState[postId]
-         }));
+    /* const toggleComments = async (postId) => {
+        setShowComments(prevState => ({
+            ...prevState,
+            [postId]: !prevState[postId]
+        }));
  
-         if (!comments[postId]) {
-             try {
-                 const response = await getComment({ postId });
-                 setComments(prevComments => ({
-                     ...prevComments,
-                     [postId]: response.data
-                 }));
-             } catch (error) {
-                 console.error("Error fetching comments:", error);
-             }
-         }
-     }; */
+        if (!comments[postId]) {
+            try {
+                const response = await getComment({ postId });
+                setComments(prevComments => ({
+                    ...prevComments,
+                    [postId]: response.data
+                }));
+            } catch (error) {
+                console.error("Error fetching comments:", error);
+            }
+        }
+    }; */
 
     return (
         <div>
-            <div onClick={handleOpenModal} className='w-[90%] md:w-[80%] mx-auto p-2 my-4 md:my-2 border space-x-2 rounded-md
+            <div onClick={handleOpenModal} className='cursor-pointer w-[90%] md:w-[80%] mx-auto p-2 my-4 md:my-2 border space-x-2 rounded-md
                  border-gray-300 flex items-center'>
                 <PlusIcon />
                 <p >Add Post</p>
@@ -153,13 +212,19 @@ function Posts({ posts, id, addNewPost }) {
                             <div className='flex flex-row justify-between'>
                                 {/* User Info and Profile Image */}
                                 <div className='flex'>
-                                    <div className='h-14 w-14 rounded-full overflow-hidden bg-sky-900'>
-                                        <Image
-                                            src={post?.creator?.profilePicture?.url || '/default-avatar.png'} // Fallback if no profile picture
-                                            alt={`${post?.creator?.name.first} ${post?.creator?.name.last}`}
-                                            width={56} // Adjusted to fit in 56x56 size (h-14)
-                                            height={56}
-                                        />
+                                    <div className='h-14 w-14 rounded-full overflow-hidden text-center bg-sky-900 flex items-center justify-center'>
+                                        {post?.creator?.profilePicture?.url ? (
+                                            <Image
+                                                src={post?.creator?.profilePicture?.url}
+                                                alt={`${post?.creator?.name.first} ${post?.creator?.name.last}`}
+                                                width={56}
+                                                height={56}
+                                            />
+                                        ) : (
+                                            <p className="text-white text-xl font-poppins">
+                                                {post?.creator?.name.first?.[0] ?? ''}{post?.creator?.name.last?.[0] ?? ''}
+                                            </p>
+                                        )}
                                     </div>
                                     <div className='flex flex-col justify-evenly ml-2'>
                                         <p className='font-poppins'>{post.creator?.name.first} {post.creator?.name.last}</p>
@@ -197,8 +262,49 @@ function Posts({ posts, id, addNewPost }) {
                                     )}
                                 </button>
                                 <span>{post.likes.length} Likes</span>
-                                <span className="ml-4 cursor-pointer">{post.comments.length} Comments</span>
-                            </div>
+                                <span className="ml-4 cursor-pointer" onClick={() => getCommentsForPost(post._id)}>
+                                    {post.comments.length} Comments
+                                </span>                            </div>
+                            {loadingComments[post._id] ? (
+                                <div className="flex items-center justify-center self-center ">
+                                    <div className="w-6 h-6 rounded-full animate-spin border border-solid border-cyan-500 border-t-transparent"></div>
+                                </div>
+                            ) : (
+                                showComments[post._id] && (
+                                    <div className="mt-4 overflow-y-auto max-h-[20%]">
+                                        {comments[post._id]?.length > 0 ? (
+                                            comments[post._id].map((comment) => (
+                                                <div key={comment?._id} className="flex items-center space-x-2 mb-2">
+                                                    <div className="flex flex-col">
+                                                        <span className="font-bold">{comment?.creator?.name.first} {comment?.creator?.name.last}</span>
+                                                        <p>{comment?.content}</p>
+                                                    </div>
+                                                </div>
+                                            ))
+                                        ) : (
+                                            <div className="font-poppins text-center">No comments</div>
+                                        )}
+                                        <form onSubmit={(e) => handleSubmitComment(e, post._id)} className="mt-4">
+                                            <textarea
+                                                value={content}
+                                                onChange={(e) => setContent(e.target.value)}
+                                                placeholder="Write a comment..."
+                                                className="w-full p-2 border border-gray-300 rounded mb-4"
+                                            />
+                                            <button type="submit" className="bg-bluePrimary md:w-[30%] text-white p-2 rounded">
+                                                {isLoading ? (
+                                                    <div className="flex items-center justify-center self-center ">
+                                                        <div className="w-6 h-6 rounded-full animate-spin border border-solid border-cyan-500 border-t-transparent"></div>
+                                                    </div>
+                                                ) : (
+                                                    'Add Comment'
+                                                )}
+                                            </button>
+                                        </form>
+                                    </div>
+                                )
+                            )}
+
                             {/* {showComments[post._id] && comments[post._id] && (
                                 <div className="mt-4">
                                     {comments[post._id].map((comment, index) => (

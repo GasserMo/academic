@@ -47,7 +47,7 @@ const LeaderboardPage = async () => {
     }
 
     return (
-        <div className='mt-5 mb-3 md:mt-10 mx-auto w-[90%] rounded-md bg-white h-full'>
+        <div className='mt-5 mb-3 md:mt-10 mx-auto w-[90%] max-h-[60vh] rounded-md bg-white h-full'>
             <p className='font-poppins p-2 text-headline-small text-start'>Leaderboard</p>
             {sortedLeaderboard.map((student, index) => (
                 <div key={student._id} className="flex 
@@ -66,7 +66,7 @@ const LeaderboardPage = async () => {
                                 height={150}
                             />
                         </div>
-                        <div className="flex flex-col items-start ml-4">
+                        <div className="flex flex-col items-start overflow-x-auto ml-2 md:ml-4">
                             <p className="font-poppins">
                                 {student.name.first} {student.name.last}
                             </p>

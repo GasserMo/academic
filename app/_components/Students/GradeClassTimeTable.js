@@ -13,19 +13,31 @@ const GradeClassTimeTable = ({ id }) => {
     useEffect(() => {
         const fetchGradeClassTimetable = async () => {
             try {
+                let gradeClassId;
+
                 if (!id) {
+                    // Fetch the logged-in user when no ID is provided
                     const userData = await GetAUser();
-                    const gradeClassId = userData.user.gradeClass._id;
-                    const data = await getGradeClassTimetable({ gradeClassId });
-                    setTimetable(data.timetable || []);
+                    console.log(userData);
+
+                    gradeClassId = userData?.user?.gradeClass?._id;
+                    console.log(gradeClassId);
+
+                    if (!gradeClassId) {
+                        throw new Error("Grade class not found for the user.");
+                    }
+                } else {
+                    // Fetch the user's child using the provided ID
+                    const userData = await GetAUserByParent({ id });
+                    gradeClassId = userData?.user?.gradeClass?._id;
+
+                    if (!gradeClassId) {
+                        throw new Error("Grade class not found for the provided user ID.");
+                    }
                 }
-                /*  const userData = await GetAUser();
-                 const gradeClassId = userData.user.gradeClass._id;
-                 const data = await getGradeClassTimetable({ gradeClassId }); */
-                const userData = await GetAUserByParent({ id })
-                const gradeClassId = userData?.user?.gradeClass._id;
+
                 const data = await getGradeClassTimetable({ gradeClassId });
-                setTimetable(data.timetable || []);
+                setTimetable(data?.timetable || []);
             } catch (error) {
                 console.error("Error fetching timetable:", error);
                 setError("Failed to fetch timetable");

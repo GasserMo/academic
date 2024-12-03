@@ -15,7 +15,9 @@ function Page({ searchParams }) {
                     <ReportProfile />
                 </div>
             </div>
-            <ReportDetails selectedReportId={selectedReportId} />
+            <div className="p-6 md:p-0">
+                <ReportDetails selectedReportId={selectedReportId} />
+            </div>
         </div>
     )
 }
