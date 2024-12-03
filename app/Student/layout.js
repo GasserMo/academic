@@ -11,7 +11,7 @@ export default function StudentLayout({ children }) {
         <div className="min-h-screen bg-slate-100 md:flex">
             <StudentSideMenu />
             <main className="flex flex-col md:w-full">
-                <div className="flex  items-center">
+                <div className="flex justify-between  items-center">
                     <div className="hidden md:flex w-[60%] mx-7 rounded-xl bg-white">
                         <form className="flex items-center p-1 w-[90%] mx-auto">
                             <input
