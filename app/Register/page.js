@@ -92,11 +92,13 @@ function Page() {
                             togglePasswordVisibility={togglePasswordVisibility}
                         />
                         {error && <p className="text-red-500">{error}</p>}
-                        <p className="flex justify-end mb-4 font-poppins text-[15px] md:text-headline-black">
+                        {/* <p className="flex justify-end mb-4 font-poppins text-[15px] md:text-headline-black">
                             Forgot Password?
-                        </p>
-                        <RegisterButton>{isLoading ? <LoadingLogin /> : 'Login'}</RegisterButton>
-                        <p className="text-center text-gray-600">
+                        </p> */}
+                        <div className='mt-5'>
+                            <RegisterButton>{isLoading ? <LoadingLogin /> : 'Login'}</RegisterButton>
+
+                        </div>                        {/* <p className="text-center text-gray-600">
                             {isLogin ? "Don't have an account" : "Already have an account?"}
                             <span
                                 onClick={() => setLogin((logged) => !logged)}
@@ -104,7 +106,7 @@ function Page() {
                             >
                                 {isLogin ? " Sign up" : " Log in"}
                             </span>
-                        </p>
+                        </p> */}
                     </div>
                 </form>
             </div>
