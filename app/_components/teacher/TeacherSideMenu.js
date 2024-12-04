@@ -15,13 +15,16 @@ import GradesIcon from '@/public/icons/GradesIcon';
 import AttendanceIcon from '@/public/icons/AttendanceIcon';
 import ReportIcon from '@/public/icons/ReportIcon';
 import ConnectIcon from '@/public/icons/ConnectIcon';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import AssignmentIcon from '@/public/icons/AssignmentIcon';
+import { globalState } from "../../context";
+import { useRouter } from 'next/navigation';
 
 function TeacherSideMenu() {
     const [isOpen, setIsOpen] = useState(false);
     const [activeItem, setActiveItem] = useState("Home");
-
+    const { setData } = useContext(globalState)
+    const router = useRouter();
     useEffect(() => {
         if (typeof window !== "undefined") {
             const pathToItem = {
@@ -47,7 +50,17 @@ function TeacherSideMenu() {
         setActiveItem(item);
         setIsOpen(false);
     };
+    const logout = () => {
+        localStorage.removeItem("userData");
+        setData((prevState) => {
+            return {
+                ...prevState,
+                userData: null,
+            };
+        });
+        router.push('/Register');
 
+    };
 
     return (
         <div>
@@ -156,9 +169,17 @@ function TeacherSideMenu() {
 
                 </div>
                 <hr className="overflow-y-auto w-48 h-1 mx-auto my-4 bg-gray-100 border-0 rounded md:my-10" />
-                <div className="w-[80%] md:mx-5">
-                    <SidebarItem><SettingIcon active={activeItem === "Settings"} /></SidebarItem>
-                    <SidebarItem><LogoutIcon active={activeItem === "Logout"} /></SidebarItem>
+                <div className="w-[80%] md:m-5">
+                    <Link href='/Settings'>
+                        <div onClick={() => handleItemClick("Settings")}>
+                            <SidebarItem>
+                                <SettingIcon active={activeItem === "Settings"} />
+                            </SidebarItem>
+                        </div>
+                    </Link>
+                    <div className="cursor-pointer" onClick={() => logout()}>
+                        <SidebarItem><LogoutIcon active={activeItem === "Logout"} /></SidebarItem>
+                    </div>
                 </div>
             </div>
         </div>

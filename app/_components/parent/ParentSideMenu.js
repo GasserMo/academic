@@ -12,9 +12,9 @@ import ReportIcon from "@/public/icons/ReportIcon";
 import '@/app/_styles/globals.css'
 import ConnectIcon from "@/public/icons/ConnectIcon";
 import { getChildByParent } from "@/app/actions/getChild";
-import { globalState } from "@/app/context";
-import { useRouter } from "next/navigation";
 
+import { globalState } from "../../context";
+import { useRouter } from 'next/navigation';
 function ParentSideMenu() {
     const [isOpen, setIsOpen] = useState(false);
     const [activeItem, setActiveItem] = useState("Home");

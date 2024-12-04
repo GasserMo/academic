@@ -9,10 +9,16 @@ import SettingIcon from "@/public/icons/SettingIcon";
 import LogoutIcon from "@/public/icons/LogoutIcon";
 import Link from "next/link";
 import { HiMenu } from "react-icons/hi";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import { globalState } from "../../context";
+import { useRouter } from 'next/navigation';
+
 import CoursesIcon from "@/public/icons/CoursesIcon";
 import ExamIcon from "@/public/icons/ExamIcon";
 function StudentSideMenu() {
+    const { setData } = useContext(globalState)
+    const router = useRouter();
+
     const [isOpen, setIsOpen] = useState(false); // Sidebar state
     const [activeItem, setActiveItem] = useState("Home"); // Track the active sidebar item
     useEffect(() => {
