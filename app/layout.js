@@ -10,6 +10,9 @@ export default function RootLayout({ children }) {
   return (
     <Context>
       <html lang="en">
+        <head>
+          <link rel="icon" href="/Logo 2.svg" />
+        </head>
         <body>
           {children}
         </body>

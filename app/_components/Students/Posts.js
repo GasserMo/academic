@@ -316,7 +316,7 @@ function Posts({ posts, id, addNewPost }) {
                     )
                 })
             ) : (
-                <p className="font-poppins text-center">No Students available</p>
+                <p className="font-poppins text-center">No Posts available</p>
             )}
             {openModal &&
                 <div className="fixed inset-0 flex items-center justify-center z-50
